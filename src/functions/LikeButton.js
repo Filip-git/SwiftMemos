@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { updateDoc, doc } from 'firebase/firestore';
 import { database } from '../firebase-config';
 import { auth } from '../firebase-config';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 const LikeButton = ({ post }) => {
-    const user = auth.currentUser;
+    const user = auth.currentUser; // Use auth.currentUser directly
     const likedUsers = post.likedUsers || [];
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(post.isLiked || false);
 
     const handleLike = async () => {
         if (user) {
             const postRef = doc(database, 'posts', post.id);
 
-            // Check if the user has already liked the post
             if (!likedUsers.includes(user.uid)) {
                 const newLikedUsers = [...likedUsers, user.uid];
 
@@ -23,7 +23,7 @@ const LikeButton = ({ post }) => {
 
                     setIsLiked(true);
                 } catch (error) {
-                    console.error("Error updating liked users:", error);
+                    console.error('Error updating liked users:', error);
                 }
             }
         }
@@ -33,7 +33,6 @@ const LikeButton = ({ post }) => {
         if (user) {
             const postRef = doc(database, 'posts', post.id);
 
-            // Check if the user has liked the post
             if (likedUsers.includes(user.uid)) {
                 const newLikedUsers = likedUsers.filter(userId => userId !== user.uid);
 
@@ -44,7 +43,7 @@ const LikeButton = ({ post }) => {
 
                     setIsLiked(false);
                 } catch (error) {
-                    console.error("Error updating liked users:", error);
+                    console.error('Error updating liked users:', error);
                 }
             }
         }
@@ -53,15 +52,16 @@ const LikeButton = ({ post }) => {
     return (
         <div>
             {isLiked ? (
-                <span i className="fa fa-heart" onClick={handleUnlike}>
-
+                <span onClick={handleUnlike}>
+                    <AiFillHeart />
                 </span>
             ) : (
                 <span onClick={handleLike}>
-                    &#x2661;
+                    <AiOutlineHeart />
                 </span>
             )}
-            <div></div><span>{likedUsers.length} Likes </span>
+            <div></div>
+            <span>{likedUsers.length} Likes </span>
         </div>
     );
 };

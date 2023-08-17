@@ -31,7 +31,6 @@ const EditPost = ({ postId, onCancel }) => {
             title: post.title,
             post: post.post,
         });
-
         onCancel();
     };
 

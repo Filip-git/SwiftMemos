@@ -3,27 +3,36 @@ import { auth, database } from '../firebase-config';
 import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
 import LikeButton from '../functions/LikeButton';
 import EditPost from '../functions/editPost';
+import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 export const Home = ({ isAuth }) => {
     const [postLists, setPostLists] = useState([]);
     const [editingPost, setEditingPost] = useState(null);
     const postsCollection = collection(database, "posts");
+    const isAdmin = auth.currentUser?.email === "admin@swiftmemos.com";
+
 
     useEffect(() => {
         const unsubscribe = onSnapshot(postsCollection, (snapshot) => {
-            const postsData = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+            const postsData = snapshot.docs.map((doc) => {
+                const postData = doc.data();
+                const isLiked = postData.likedUsers?.includes(auth.currentUser?.uid) || false;
+                return { ...postData, id: doc.id, isLiked: isLiked };
+            });
             setPostLists(postsData);
         });
 
         return () => {
             unsubscribe();
         };
-    }, []);
+    }, [auth.currentUser]);
+
 
     const deletePost = async (id) => {
         const postDoc = doc(database, "posts", id);
         await deleteDoc(postDoc);
     };
+
 
     const handleEdit = (postId) => {
         setEditingPost(postId);
@@ -43,23 +52,26 @@ export const Home = ({ isAuth }) => {
                                 <h1> {post.title}</h1>
                             </div>
 
-                            <div className="deletePost">
-                                {isAuth && auth.currentUser && post.author.id === auth.currentUser.uid && (
-                                    <button onClick={() => deletePost(post.id)}>
-                                        &#128465;
-                                    </button>
-                                )}
 
-                                {/* Render the edit button */}
+                            <div className="deletePost">
+
                                 {isAuth && auth.currentUser && post.author.id === auth.currentUser.uid && (
                                     <button
                                         onClick={() => {
                                             setEditingPost(post.id); // Open the modal
                                         }}
                                     >
-                                        <i className="far fa-edit"></i>
+                                        <AiOutlineEdit></AiOutlineEdit>
                                     </button>
                                 )}
+
+                                {isAuth && (isAdmin || post.author.id === auth.currentUser.uid) && (
+                                    <button onClick={() => deletePost(post.id)}>
+                                        <AiOutlineDelete></AiOutlineDelete>
+                                    </button>
+                                )}
+
+
                             </div>
                         </div>
 
@@ -67,7 +79,8 @@ export const Home = ({ isAuth }) => {
                         <h3>@{post.author.displayName || post.author.name || "Anonymous User"}</h3>
                         <hr />
                         <div>
-                            {post && <LikeButton post={post} />}
+                            {post && <LikeButton post={post} user={auth.currentUser} />}
+
                         </div>
 
                         {/* Render EditPost component when editing */}

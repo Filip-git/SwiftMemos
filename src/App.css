@@ -179,16 +179,15 @@ textarea {
 }
 
 .postHeader .deletePost {
-  flex: 50%;
   display: flex;
-  flex-direction: column;
   align-items: flex-end;
+  gap: 0.3rem;
 }
 
 .deletePost button {
   border: none;
   background: none;
-  font-size: 30px;
+  font-size: 32px;
   cursor: pointer;
 }
 
