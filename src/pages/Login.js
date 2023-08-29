@@ -7,6 +7,8 @@ import { auth, provider } from "../firebase-config";
 export function Login({ setAuth }) {
     let navigate = useNavigate();
     const [justifyActive, setJustifyActive] = useState('tab1');
+    const [loginError, setLoginError] = useState(null);
+    const [registrationError, setRegistrationError] = useState(null);
 
     const signInWithGoogle = () => {
         signInWithPopup(auth, provider).then((result) => {
@@ -31,7 +33,7 @@ export function Login({ setAuth }) {
             setAuth(true);
             navigate("/");
         } catch (error) {
-            console.log(error)
+            setLoginError(error.message);
         }
     };
 
@@ -39,25 +41,18 @@ export function Login({ setAuth }) {
         event.preventDefault();
         const { regEmail, regPassword, regUsername } = event.target.elements;
 
-        console.log("Registration values:", regEmail.value, regPassword.value, regUsername.value);
-
         try {
             await createUserWithEmailAndPassword(auth, regEmail.value, regPassword.value, regUsername.value);
             await updateProfile(auth.currentUser, { displayName: regUsername.value });
             setAuth(true);
             navigate("/");
         } catch (error) {
-            console.log("Registration error:", error);
+            setRegistrationError(error.message);
         }
     };
 
-
-
-
     return (
         <div className="loginPage">
-
-
             <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
                 <MDBTabs pills justify className='mb-3 d-flex flex-row justify-content-between'>
                     <MDBTabsItem>
@@ -89,6 +84,7 @@ export function Login({ setAuth }) {
                             <div className="text-center">
                                 <MDBBtn className="mb-4">Sign in</MDBBtn>
                             </div>
+                            {loginError && <p className="error-message">{loginError}</p>}
                         </form>
 
                     </MDBTabsPane>
@@ -106,18 +102,13 @@ export function Login({ setAuth }) {
                             <MDBInput wrapperClass='mb-4' label='Username' id='regUsername' type='text' />
                             <MDBInput wrapperClass='mb-4' label='Email address' id='regEmail' htmlFor='email' type='email' />
                             <MDBInput wrapperClass='mb-4' label='Password' id='regPassword' htmlFor='password' type='password' />
-
                             <div className="text-center">
                                 <MDBBtn className="mb-4">Sign up</MDBBtn>
-                            </div>                        </form>
-
-
-
-
+                            </div>
+                            {registrationError && <p className="error-message">{registrationError}</p>}
+                        </form>
                     </MDBTabsPane>
-
                 </MDBTabsContent>
-
             </MDBContainer>
         </div>
     );

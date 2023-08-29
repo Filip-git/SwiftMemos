@@ -20,7 +20,7 @@ export const CreatePost = ({ isAuth }) => {
         if (!isAuth) {
             navigate("/login");
         }
-    }, [isAuth]);
+    }, [isAuth, navigate]);
 
 
     return (
