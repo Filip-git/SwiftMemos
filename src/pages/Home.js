@@ -3,6 +3,7 @@ import { auth, database } from '../firebase-config';
 import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
 import LikeButton from '../functions/LikeButton';
 import EditPost from '../functions/editPost';
+import Comments from '../functions/Comments';
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 export const Home = ({ isAuth }) => {
@@ -76,9 +77,9 @@ export const Home = ({ isAuth }) => {
                         </div>
 
                         <div className="postTextContainer">{post.post}</div>
-                        <h3>@{post.author.displayName || post.author.name || "Anonymous User"}</h3>
+                        <h4>@{post.author.displayName || post.author.name || "Anonymous User"}</h4>
                         <hr />
-                        <div>
+                        <div className="text-center">
                             {post && <LikeButton post={post} user={auth.currentUser} />}
 
                         </div>
@@ -86,7 +87,11 @@ export const Home = ({ isAuth }) => {
                         {/* Render EditPost component when editing */}
                         {editingPost === post.id && (
                             <EditPost postId={post.id} onCancel={handleCancelEdit} />
-                        )}
+                        )} <hr></hr>
+
+                        <Comments postId={post.id} comments={post.comments || []} isAuth={isAuth} isAdmin={isAdmin} />
+
+
                     </div>
                 );
             })}

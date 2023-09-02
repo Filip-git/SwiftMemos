@@ -296,3 +296,84 @@ textarea {
   text-align: center;
   font-size: 15px;
 }
+
+
+
+/* Adjust the button styles */
+.commentButton {
+  height: 35px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  background-color: #033c79ba;
+  color: #fff;
+  transition: background-color 0.4s;
+}
+
+.commentButton:hover {
+  background-color: #0452a4;
+}
+
+.comment-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  /* Optional: Add margin between comments */
+}
+
+.comment-container h6 {
+  margin-right: 10px;
+  font-style: italic;
+}
+
+.comment-container p {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+
+/* Style the comment items */
+.comments-container>div {
+  display: flex;
+  flex-direction: row;
+  /* Display comments in a row layout */
+  align-items: center;
+  /* Align items vertically in the comment row */
+}
+
+/* Style the edit and delete buttons */
+.comments-container button {
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  margin: 0 5px;
+  /* Add margin to space out buttons */
+  cursor: pointer;
+}
+
+.comments-container button.edit-button {
+  background-color: #007bff;
+  /* Change the background color for the edit button */
+  color: #fff;
+  /* Change the text color for the edit button */
+}
+
+.comments-container button.edit-button:hover {
+  background-color: #0056b3;
+  /* Change the hover background color for the edit button */
+}
+
+.comments-container button.delete-button {
+  background-color: #ff0000;
+  /* Change the background color for the delete button */
+  color: #fff;
+  /* Change the text color for the delete button */
+}
+
+.comments-container button.delete-button:hover {
+  background-color: #cc0000;
+  /* Change the hover background color for the delete button */
+}
