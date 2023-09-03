@@ -22,14 +22,17 @@ nav {
 }
 
 .left-nav {
-  /* Styles for the left part of the navbar */
   display: flex;
   margin-left: 20px;
-  /* Adjust as needed */
+  font-family: 'Pacifico', sans-serif;
+  font-style: italic;
+  font-size: larger;
 }
+
 
 .right-nav {
   display: flex;
+  font-family: 'Pacifico', sans-serif;
 }
 
 a {
