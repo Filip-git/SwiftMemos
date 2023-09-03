@@ -14,15 +14,22 @@ nav {
   height: 80px;
   background-color: black;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  /* Aligns items to the start and end of the navbar */
   align-items: center;
   color: white;
   text-decoration: none;
 }
 
-.nav-right {
+.left-nav {
+  /* Styles for the left part of the navbar */
   display: flex;
-  align-items: flex-end;
+  margin-left: 20px;
+  /* Adjust as needed */
+}
+
+.right-nav {
+  display: flex;
 }
 
 a {
@@ -30,6 +37,24 @@ a {
   text-decoration: none;
   margin: 10px;
   font-size: 25px;
+}
+
+/* Media query for screens smaller than a certain width (adjust as needed) */
+@media screen and (max-width: 768px) {
+  .left-nav {
+    margin-left: 10px;
+    /* Reduce left margin for smaller screens */
+  }
+
+  .right-nav {
+    margin-right: 10px;
+    /* Reduce right margin for smaller screens */
+  }
+
+  a {
+    font-size: 20px;
+    /* Reduce font size for smaller screens */
+  }
 }
 
 .createPostPage {
@@ -258,6 +283,21 @@ textarea {
   overflow-y: auto;
   margin-bottom: 3rem;
 }
+
+@media screen and (max-width: 1170px) {
+  .homePage {
+    padding-top: 7px;
+    margin: 6px;
+  }
+
+  .post {
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 0;
+    padding: 10px;
+  }
+}
+
 
 
 .btn-love {

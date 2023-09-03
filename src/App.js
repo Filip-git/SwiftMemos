@@ -21,10 +21,14 @@ function App() {
   return (
     <Router>
       <nav>
-        <Link to="/">Home</Link>
+        <div className="left-nav">
+          <Link to="/">SwiftMemos</Link>
+        </div>
+        <div className="right-nav">
+          <Link to="/">Home</Link>
 
-        {!isAuth ? (<Link to="/login">Login</Link>) : (<><Link to="/createpost">Create Post</Link><Link to="/login" onClick={signUserOut}>Log Out</Link> </>)}
-
+          {!isAuth ? (<Link to="/login">Login</Link>) : (<><Link to="/createpost">Create Post</Link><Link to="/login" onClick={signUserOut}>Log Out</Link> </>)}
+        </div>
       </nav>
       <Routes>
         <Route path="/" element={<Home isAuth={isAuth} />} />
