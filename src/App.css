@@ -420,3 +420,10 @@ textarea {
   background-color: #cc0000;
   /* Change the hover background color for the delete button */
 }
+
+.username {
+  font-size: smaller;
+  font-style: italic;
+  margin-left: 5px;
+  color: #007bff;
+}

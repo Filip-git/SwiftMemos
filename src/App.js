@@ -3,13 +3,27 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { CreatePost } from './pages/CreatePost';
-import { useState } from 'react';
-import { signOut } from 'firebase/auth'
+import { useState, useEffect } from 'react';
+import { signOut, onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase-config';
 
 function App() {
 
   const [isAuth, setAuth] = useState(localStorage.getItem("isAuth") === "true");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
 
   const signUserOut = () => {
     signOut(auth).then(() => {
@@ -22,7 +36,7 @@ function App() {
     <Router>
       <nav>
         <div className="left-nav">
-          <Link to="/">SwiftMemos</Link>
+          <Link to="/">SwiftMemos {user && <span className="username">{user.displayName}</span>}</Link>
         </div>
         <div className="right-nav">
           <Link to="/">Home</Link>
