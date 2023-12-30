@@ -12,7 +12,6 @@ export const Home = ({ isAuth }) => {
     const postsCollection = collection(database, "posts");
     const isAdmin = auth.currentUser?.email === "admin@swiftmemos.com";
 
-
     useEffect(() => {
         const unsubscribe = onSnapshot(postsCollection, (snapshot) => {
             const postsData = snapshot.docs.map((doc) => {
@@ -26,7 +25,7 @@ export const Home = ({ isAuth }) => {
         return () => {
             unsubscribe();
         };
-    }, [auth.currentUser]);
+    }, [auth.currentUser, postsCollection]);
 
 
     const deletePost = async (id) => {
@@ -34,10 +33,6 @@ export const Home = ({ isAuth }) => {
         await deleteDoc(postDoc);
     };
 
-
-    const handleEdit = (postId) => {
-        setEditingPost(postId);
-    };
 
     const handleCancelEdit = () => {
         setEditingPost(null);
@@ -62,13 +57,13 @@ export const Home = ({ isAuth }) => {
                                             setEditingPost(post.id); // Open the modal
                                         }}
                                     >
-                                        <AiOutlineEdit></AiOutlineEdit>
+                                        <AiOutlineEdit />
                                     </button>
                                 )}
 
                                 {isAuth && (isAdmin || post.author.id === auth.currentUser.uid) && (
                                     <button onClick={() => deletePost(post.id)}>
-                                        <AiOutlineDelete></AiOutlineDelete>
+                                        <AiOutlineDelete />
                                     </button>
                                 )}
 

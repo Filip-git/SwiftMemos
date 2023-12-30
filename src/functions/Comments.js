@@ -7,8 +7,8 @@ const Comments = ({ postId, comments, isAuth, isAdmin }) => {
     const user = auth.currentUser;
     const [newComment, setNewComment] = useState('');
     const commentsContainerRef = useRef(null);
-    const [editingCommentIndex, setEditingCommentIndex] = useState(); // Define 'editingCommentIndex' state
-    const [editedCommentContent, setEditedCommentContent] = useState(''); // Define 'editedCommentContent' state
+    const [editingCommentIndex, setEditingCommentIndex] = useState();
+    const [editedCommentContent, setEditedCommentContent] = useState('');
 
     useEffect(() => {
         if (commentsContainerRef.current) {
@@ -26,8 +26,17 @@ const Comments = ({ postId, comments, isAuth, isAdmin }) => {
             const postRef = doc(database, 'posts', postId);
 
             try {
+                const newCommentObj = {
+                    userId: user.uid,
+                    content: newComment,
+                    author: {
+                        name: auth.currentUser.displayName,
+                        id: auth.currentUser.uid
+                    }
+                };
+
                 await updateDoc(postRef, {
-                    comments: [...comments, { userId: user.uid, content: newComment, createdAt: new Date(), author: { name: auth.currentUser.displayName, id: auth.currentUser.uid } }],
+                    comments: [...comments, newCommentObj],
                 });
 
                 setNewComment('');

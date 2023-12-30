@@ -362,6 +362,8 @@ textarea {
 .comment-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  /* Add this line to align items to the right */
   margin-bottom: 8px;
   /* Optional: Add margin between comments */
 }
